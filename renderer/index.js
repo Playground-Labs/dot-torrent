@@ -6,8 +6,8 @@ const submitListener = document.querySelector('form').addEventListener('submit',
     event.preventDefault()
     const files = [...document.getElementById('filepicker').files]
     const filesformatted = files.map(( {name, path: pathName}) => ({
-      name,
-      pathName
+        name,
+        pathName
     }))
-ipcRenderer.send('files',filesformatted)
+    ipcRenderer.send('files',filesformatted)
 })
