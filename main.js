@@ -17,12 +17,19 @@ function main() {
 
     ipcMain.on('files', async (event, filesArray) => {
         try {
-            const torrentArray = await Promise.all(filesArray.map(async ({
-                name,
-                pathName
-            }) => {
-                await bencode.decode(fs.readFileSync(pathName))
-            }))
+            const torrentArray = await Promise.all(
+                filesArray.map(async ({
+                    name,
+                    pathName
+                }) => ({
+                    ...await bencode.decode(fs.readFileSync(pathName))               
+                }))
+            )
+            torrentArray.forEach((torrentFile)=>{
+            
+                mainWindow.webContents.send('BitTorrentFileContent', torrentFile)
+
+            })
         } catch (error) {
             mainWindow.webContents.send('BitTorrentError', error)
         }
