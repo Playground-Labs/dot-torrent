@@ -1,6 +1,6 @@
 # torrentSpace
 
-A bit torrent client made with electron.
+A bit torrent client made with :yellow_heart: and [electron]([electronjs.org).
 
 The project is under development and the code is not stable yet. 
 
