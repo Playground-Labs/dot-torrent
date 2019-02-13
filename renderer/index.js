@@ -1,7 +1,6 @@
 'use strict'
 const { ipcRenderer } = require('electron')
-
-
+const Tracker = require('./Tracker')
 const submitListener = document.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault()
     const files = [...document.getElementById('filepicker').files]
@@ -20,4 +19,8 @@ ipcRenderer.on('BitTorrentFileContent',(event, torrentFile) => {
         return tracker
     }),initialTracker)
     pre.innerText = finalTrackerList
+    
+    let torrentTracker = new Tracker(
+        ...torrentFile['announce-list']
+    )
 })
