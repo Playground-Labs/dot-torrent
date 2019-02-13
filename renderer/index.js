@@ -11,3 +11,13 @@ const submitListener = document.querySelector('form').addEventListener('submit',
     }))
     ipcRenderer.send('files',filesformatted)
 })
+ipcRenderer.on('BitTorrentFileContent',(event, torrentFile) => {
+    const pre = document.getElementById('tracker')
+    const initialTracker = torrentFile.announce.toString('utf-8')+'\n'
+  
+    const finalTrackerList = torrentFile['announce-list'].reduce(((tracker,trackerList) => {
+        tracker += trackerList.toString('utf-8')+'\n'
+        return tracker
+    }),initialTracker)
+    pre.innerText = finalTrackerList
+})
