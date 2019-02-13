@@ -1,34 +1,35 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+'use strict'
+const {
+  app,
+  ipcMain
+} = require('electron')
 const path = require('path')
-const {ipcMain} = require('electron')
-const util = require('util')
 const fs = require('fs')
-const stat = util.promisify(fs.stat)
+const bencode = require('bencode')
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+const Window = require('./window')
 
-app.on("ready",() => {
-  const htmlPath = path.join('src','index.html')
-  mainWindow = new BrowserWindow()
-  mainWindow.loadFile(htmlPath)
-  
- ipcMain.on('files', async (event, filesArr) => {
-   try {
-     const data = await Promise.all(
-       filesArr.map(async ({ name, pathName }) => ({
-       ...await stat(pathName),
-       name,
-       pathName
-       }))
+function main() {
+  let mainWindow = new Window({
+    file: path.join('renderer', 'index.html')
+  })
 
-     )
-    mainWindow.webContents.send('metadata', data)
-   } catch(error) {
-    mainWindow.webContents.send('metadata:error', error)
-   }
- })
+  ipcMain.on('files', async (event, filesArray) => {
+    try {
+      const torrentArray = await Promise.all(filesArray.map(async ({
+        name,
+        pathName
+      }) => {
+        await bencode.decode(fs.readFileSync(pathName))
+      }))
+    } catch (error) {
+      mainWindow.webContents.send('BitTorrentError', error)
+    }
+
+  })
+}
+app.on('ready', main)
+app.on('windows-all-closed', function () {
+  app.quit()
 })
-

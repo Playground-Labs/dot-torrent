@@ -12,7 +12,6 @@ const submitListener = document.querySelector('form').addEventListener('submit',
     ipcRenderer.send('files', filesFormatted)
 })
 ipcRenderer.on('metadata',(event, metadata) => {
-    console.log('working');
     const pre = document.getElementById('data')
     pre.innerText=JSON.stringify(metadata, null, 2)
 })
