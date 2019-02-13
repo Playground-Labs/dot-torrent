@@ -18,4 +18,4 @@ The project is under :construction: and hence, no stable release yet.
 
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+[CC0 1.0 Universal](LICENSE.md)
