@@ -2,10 +2,11 @@
 
 A bit torrent client made with :yellow_heart: and [electron]([electronjs.org).
 
-The project is under :construction: and hence, no stable release yet. 
+The project is under :construction: and hence, no stable release yet.
 
+## JavaScript Style Guide
 
-
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 ## Resources for Learning Electron
 
