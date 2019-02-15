@@ -1,14 +1,15 @@
 // Modules to control application life and create native browser window
 'use strict'
-const {
-  app,
-  ipcMain
-} = require('electron')
 const path = require('path')
 const fs = require('fs')
 const bencode = require('bencode')
 
-const Window = require('./window')
+const {
+  app,
+  ipcMain
+} = require('electron')
+
+const Window = require('./Window')
 
 function main () {
   let mainWindow = new Window({
@@ -34,6 +35,6 @@ function main () {
   })
 }
 app.on('ready', main)
-app.on('windows-all-closed', function () {
+app.on('windows-all-closed', () => {
   app.quit()
 })

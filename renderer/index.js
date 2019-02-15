@@ -1,6 +1,8 @@
 'use strict'
 const { ipcRenderer } = require('electron')
+
 const Tracker = require('./Tracker')
+
 document.querySelector('form').addEventListener('submit', (event) => {
   event.preventDefault()
   const files = [...document.getElementById('filepicker').files]
