@@ -19,26 +19,27 @@ class Tracker {
         const socket = dgram.createSocket('udp4')
 
         this.buildConnectionRequest(socket, trackerURL)
-          .then(messageData => this.udpSend(messageData))
+          .then(messageData => this.udpSend(messageData, 0))
           .catch(error => console.log(error))
+          /*
         socket.on('error', (err) => {
           console.log(`server error:\n${err.stack}`)
           socket.close()
         })
-        /* socket.on('message', (msg, rinfo) => {
+        socket.on('message', (msg, rinfo) => {
           console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`)
-        }) */
+        })
         socket.on('listening', () => {
           const address = socket.address()
           console.log(`server listening ${address.address}:${address.port}`)
         })
+        */
         socket.on('message', async response => {
-          console.log(`I got the message ${response} ${response.readUInt32BE(0)}`)
           switch (await this.responseType(response)) {
             case 'connect':
               this.parseConnectionResponse(response)
-                .then(ConnectionResponseData => this.buildAnnounceRequest(this.torrentFile, ConnectionResponseData.connectionId))
-                .then(messageData => this.udpAnnounceSend(socket, messageData, trackerURL))
+                .then(ConnectionResponseData => this.buildAnnounceRequest(this.torrentFile, ConnectionResponseData.connectionId, socket, trackerURL))
+                .then(messageData => this.udpSend(messageData, 0))
                 .catch(error => console.log(error))
               break
             case 'announce':
@@ -46,17 +47,13 @@ class Tracker {
                 .then(AnnounceResponseData => {
                   console.log(AnnounceResponseData.peers)
                 })
-              break
           }
         })
       }
     })
   }
-  async udpSend (messageData, callback = () => {}) {
-    await messageData.socket.send(messageData.bufferData, 0, messageData.bufferData.length, messageData.trackerURL.port, messageData.trackerURL.hostname, () => {})
-  }
-  async udpAnnounceSend (socket, messageData, trackerURL, callback = () => {}) {
-    await socket.send(messageData, 1, messageData.length, trackerURL.port, trackerURL.hostname, () => {})
+  async udpSend (messageData, offset, callback = () => {}) {
+    await messageData.socket.send(messageData.bufferData, offset, messageData.bufferData.length, messageData.trackerURL.port, messageData.trackerURL.hostname, () => {})
   }
   async buildConnectionRequest (socket, trackerURL) {
     const bufferData = Buffer.alloc(16)
@@ -88,8 +85,8 @@ class Tracker {
       connectionId: response.slice(8)
     }
   }
-  async buildAnnounceRequest (torrentFile, connectionId, port = 6881) {
-    const bufferData = Buffer.allocUnsafe(100)
+  async buildAnnounceRequest (torrentFile, connectionId, socket, trackerURL, port = 6881) {
+    const bufferData = Buffer.alloc(98)
     const torrentParser = new TorrentParser(torrentFile)
     connectionId.copy(bufferData, 0)
     bufferData.writeUInt32BE(1, 8)
@@ -97,12 +94,19 @@ class Tracker {
     torrentParser.infoHash().copy(bufferData, 16)
     utility.uniqueId().copy(bufferData, 36)
     Buffer.alloc(8).copy(bufferData, 56)
+    torrentParser.torrentSize().copy(bufferData, 64)
+    Buffer.alloc(8).copy(bufferData, 72)
     bufferData.writeUInt32BE(0, 80)
     bufferData.writeUInt32BE(0, 84)
     crypto.randomBytes(4).copy(bufferData, 88)
     bufferData.writeInt32BE(-1, 92)
-    bufferData.writeUInt32BE(port, 96)
-    return bufferData
+    bufferData.writeUInt16BE(port, 96)
+    const messageData = {
+      bufferData: bufferData,
+      socket: socket,
+      trackerURL: trackerURL
+    }
+    return messageData
   }
   async parseAnnounceResponse (response) {
     return {

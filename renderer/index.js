@@ -13,7 +13,6 @@ document.querySelector('form').addEventListener('submit', (event) => {
   ipcRenderer.send('files', filesformatted)
 })
 ipcRenderer.on('BitTorrentFileContent', (event, torrentFile) => {
-  console.log(torrentFile)
   const pre = document.getElementById('tracker')
   const initialTracker = torrentFile.announce.toString('utf-8') + '\n'
 
@@ -27,4 +26,5 @@ ipcRenderer.on('BitTorrentFileContent', (event, torrentFile) => {
     torrentFile, torrentFile['announce-list']
   )
   torrentTracker.getPeers()
+  pre.innerText = pre.innerText + '\n'
 })
