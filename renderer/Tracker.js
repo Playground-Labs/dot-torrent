@@ -20,30 +20,26 @@ class Tracker {
 
         this.buildConnectionRequest(socket, trackerURL)
           .then(messageData => this.udpSend(messageData))
-          .then(() => {
-
-          })
           .catch(error => console.log(error))
-          socket.on('error', (err) => {
-            console.log(`server error:\n${err.stack}`)
-            server.close()
-          })
-          
-          socket.on('message', (msg, rinfo) => {
-            console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`)
-          });
-          
-          socket.on('listening', () => {
-            const address = socket.address()
-            console.log(`server listening ${address.address}:${address.port}`)
-          })
-          
-          socket.bind(41234)
-    /*    socket.on('message', response => {
-          switch (this.responseType(response)) {
+        socket.on('error', (err) => {
+          console.log(`server error:\n${err.stack}`)
+          socket.close()
+        })
+        /* socket.on('message', (msg, rinfo) => {
+          console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`)
+        }) */
+        socket.on('listening', () => {
+          const address = socket.address()
+          console.log(`server listening ${address.address}:${address.port}`)
+        })
+        socket.on('message', async response => {
+          console.log(`I got the message ${response} ${response.readUInt32BE(0)}`)
+          switch (await this.responseType(response)) {
             case 'connect':
               this.parseConnectionResponse(response)
                 .then(ConnectionResponseData => this.buildAnnounceRequest(this.torrentFile, ConnectionResponseData.connectionId))
+                .then(messageData => this.udpAnnounceSend(socket, messageData, trackerURL))
+                .catch(error => console.log(error))
               break
             case 'announce':
               this.parseAnnounceResponse(response)
@@ -52,12 +48,15 @@ class Tracker {
                 })
               break
           }
-        }) */
+        })
       }
     })
   }
   async udpSend (messageData, callback = () => {}) {
     await messageData.socket.send(messageData.bufferData, 0, messageData.bufferData.length, messageData.trackerURL.port, messageData.trackerURL.hostname, () => {})
+  }
+  async udpAnnounceSend (socket, messageData, trackerURL, callback = () => {}) {
+    await socket.send(messageData, 1, messageData.length, trackerURL.port, trackerURL.hostname, () => {})
   }
   async buildConnectionRequest (socket, trackerURL) {
     const bufferData = Buffer.alloc(16)
@@ -90,7 +89,7 @@ class Tracker {
     }
   }
   async buildAnnounceRequest (torrentFile, connectionId, port = 6881) {
-    const bufferData = Buffer.allocUnSafe(98)
+    const bufferData = Buffer.allocUnsafe(100)
     const torrentParser = new TorrentParser(torrentFile)
     connectionId.copy(bufferData, 0)
     bufferData.writeUInt32BE(1, 8)
