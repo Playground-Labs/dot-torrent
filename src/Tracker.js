@@ -4,15 +4,15 @@ const url = require('url')
 const crypto = require('crypto')
 
 const TorrentParser = require('./TorrentParser')
-const utility = require('./utility')
-const slices = require('./slices')
+const utility = require('./utilities/uniqueClientId')
+const slices = require('./utilities/slices')
 
 class Tracker {
   constructor (torrentFile, trackerURLs) {
     this.torrentFile = torrentFile
     this.trackerURLs = trackerURLs
   }
-  getPeers () {
+  getPeers (callback) {
     this.trackerURLs.forEach((individualTracker) => {
       const trackerURL = url.parse(individualTracker.toString('utf-8'))
       if (trackerURL.protocol === 'udp:') {
@@ -45,7 +45,7 @@ class Tracker {
             case 'announce':
               this.parseAnnounceResponse(response)
                 .then(AnnounceResponseData => {
-                  console.log(AnnounceResponseData.peers)
+                  callback(AnnounceResponseData.peers)
                 })
           }
         })
@@ -116,7 +116,7 @@ class Tracker {
       seeders: response.readUInt32BE(12),
       peers: slices.slicedParts(response.slice(20), 6).map(address => {
         return {
-          ip: address.slice(0, 4).join('4'),
+          ip: address.slice(0, 4).join('.'),
           port: address.readUInt16BE(4)
         }
       })

@@ -2,6 +2,7 @@
 const { ipcRenderer } = require('electron')
 
 const Tracker = require('./Tracker')
+const download = require('./download')
 
 let trackerListArray = []
 
@@ -37,5 +38,9 @@ ipcRenderer.on('BitTorrentFileContent', (event, torrentFile) => {
   let torrentTracker = new Tracker(
     torrentFile, trackerListArray
   )
-  torrentTracker.getPeers()
+  torrentTracker.getPeers(peers => {
+    peers.map(peer => {
+      pre.innerText = pre.innerText + '\n' + peer.ip + ':' + peer.port
+    })
+  })
 })

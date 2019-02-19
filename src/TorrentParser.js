@@ -2,7 +2,7 @@
 const bencode = require('bencode')
 const crypto = require('crypto')
 
-const bigIntToHex = require('./bigIntToHex')
+const bigIntToHex = require('./utilities/bigIntToHex')
 class TorrentParser {
   constructor (torrentFile) {
     this.torrentFile = torrentFile
