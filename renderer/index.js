@@ -3,6 +3,8 @@ const { ipcRenderer } = require('electron')
 
 const Tracker = require('./Tracker')
 
+let trackerListArray = []
+
 document.querySelector('form').addEventListener('submit', (event) => {
   event.preventDefault()
   const files = [...document.getElementById('filepicker').files]
@@ -14,17 +16,26 @@ document.querySelector('form').addEventListener('submit', (event) => {
 })
 ipcRenderer.on('BitTorrentFileContent', (event, torrentFile) => {
   const pre = document.getElementById('tracker')
-  const initialTracker = torrentFile.announce.toString('utf-8') + '\n'
-
-  const finalTrackerList = torrentFile['announce-list'].reduce((tracker, trackerList) => {
-    tracker += trackerList.toString('utf-8') + '\n'
-    return tracker
-  }, initialTracker)
-  pre.innerText = finalTrackerList
+  if (torrentFile['announce-list'].length > 0) {
+    let finalTrackerList = null
+    if (torrentFile['announce-list'].length === 1) {
+      trackerListArray = torrentFile['announce-list'][0]
+      finalTrackerList = trackerListArray.reduce((initialTracker, nextTracker) => {
+        return initialTracker.toString('utf-8') + '\n'.concat(nextTracker.toString('utf-8'))
+      })
+    } else {
+      trackerListArray = torrentFile['announce-list']
+      finalTrackerList = trackerListArray.reduce((initialTracker, nextTracker) => {
+        return initialTracker.toString('utf-8') + '\n'.concat(nextTracker.toString('utf-8'))
+      })
+    }
+    pre.innerText = finalTrackerList
+  } else {
+    console.error('Invalid / corrupted torrent file')
+  }
 
   let torrentTracker = new Tracker(
-    torrentFile, torrentFile['announce-list']
+    torrentFile, trackerListArray
   )
   torrentTracker.getPeers()
-  pre.innerText = pre.innerText + '\n'
 })

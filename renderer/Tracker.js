@@ -56,7 +56,7 @@ class Tracker {
     await messageData.socket.send(messageData.bufferData, offset, messageData.bufferData.length, messageData.trackerURL.port, messageData.trackerURL.hostname, () => {})
   }
   async buildConnectionRequest (socket, trackerURL) {
-    const bufferData = Buffer.alloc(16)
+    const bufferData = Buffer.allocUnsafe(16)
     bufferData.writeInt32BE(0x417, 0)
     bufferData.writeInt32BE(0x27101980, 4)
     bufferData.writeInt32BE(0, 8)
@@ -86,7 +86,7 @@ class Tracker {
     }
   }
   async buildAnnounceRequest (torrentFile, connectionId, socket, trackerURL, port = 6881) {
-    const bufferData = Buffer.alloc(98)
+    const bufferData = Buffer.allocUnsafe(98)
     const torrentParser = new TorrentParser(torrentFile)
     connectionId.copy(bufferData, 0)
     bufferData.writeUInt32BE(1, 8)
