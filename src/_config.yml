@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: dotTorrent
-email: bickletravs@outlook.com
+email: bickletravis@outlook.com
 description: >- # this means to ignore newlines until "baseurl:"
  A bitTorrent client made wth Jekyll and Electron
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -24,12 +24,11 @@ github_username:  paridapunyasloka
 
 # Build settings
 markdown: kramdown
-theme: minima
 plugins:
   - jekyll-feed
 
-source: .
-destination: _site
+#source: .
+#destination: _site
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -42,3 +41,5 @@ exclude:
    - vendor/cache/
    - vendor/gems/
    - vendor/ruby/
+   - stylesheets/sass
+   - .sass-cache

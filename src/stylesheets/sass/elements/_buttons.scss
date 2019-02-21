@@ -1,0 +1,16 @@
+$button-color: #cacaca;
+$button-background: #505050;
+.button-dot-torrent {
+  border: 2px solid $button-color;
+  border-radius: 8px;
+  color: $button-color;
+  text-decoration: none;
+}
+.button-submit-dot-torrent {
+    @extend .button-dot-torrent;
+   width: 225px;
+   font-size: 1em;
+   padding: 8px 20px;
+   background: $button-background;
+   cursor: pointer;
+}

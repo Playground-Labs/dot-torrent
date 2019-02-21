@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>dotTorrent</title>
-</head>
-<body>
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+---
 <form>
-    <div>
-    <label for="filepicker">
-    <input id="filepicker" name="filepicker" type="file" multiple="" />
-    </label>
+    <div class="wrapper-file-picker">
+    <!--<button class="button-submit-dot-torrent">Add file</button> -->
+    <label tabindex="0" for="my-file" class="button-submit-dot-torrent">Select a file...</label>
+    <input id="filepicker" name="filepicker" type="file" multiple>
     </div>
-    <button>Add BitT-file</button>
     </form>
 <pre id="tracker"></pre>
-
-</body>
-<script src="./index.js"></script>
-</html>

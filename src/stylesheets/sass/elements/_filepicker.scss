@@ -1,0 +1,16 @@
+.wrapper-file-picker {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+@import 'buttons';
+.wrapper-file-picker input[type=file] {
+    width: 225px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    
+   padding: 8px 20px;
+    cursor: pointer;
+  }

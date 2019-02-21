@@ -13,7 +13,7 @@ const Window = require('./Window')
 
 function main () {
   let mainWindow = new Window({
-    file: path.join('src', 'index.html')
+    file: path.join('dist', 'index.html')
   })
 
   ipcMain.on('files', async (event, filesArray) => {
