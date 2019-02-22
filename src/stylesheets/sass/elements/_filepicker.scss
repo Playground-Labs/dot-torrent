@@ -1,16 +1,47 @@
+
+$label-color: #cacaca;
+$label-background: #505050;
+
 .wrapper-file-picker {
+    $file-picker-width: 400px;
+    $file-picker-height: 30px;
+    $border-thickness: 2px;
+    $padding-left-right: 20px;
+    $padding-top-bottom: 8px;
     position: relative;
-    overflow: hidden;
     display: inline-block;
+    overflow: hidden;
+    width: $file-picker-width + 2*$padding-left-right + 2*$border-thickness;
+    height: $file-picker-height + 2*$padding-top-bottom + 2*$border-thickness;
+    &::before {
+        content: 'Choose your file';
+        border: $border-thickness solid $label-color;
+        border-radius: 8px;
+        color: $label-color;
+        text-decoration: none;  
+        width: $file-picker-width;
+        height: $file-picker-height;
+        line-height: $file-picker-height;
+        font-size: 1em;
+        padding: $padding-top-bottom $padding-left-right;
+        background: $label-background;
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 0;
+        cursor: pointer;
+        text-align: center;
+    }  
+    input {
+        width: $file-picker-width + 2*$border-thickness;;
+        height: $file-picker-height + 2*$border-thickness;;
+        border-width: $border-thickness;      
+        padding: $padding-top-bottom $padding-left-right;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;    
+        cursor: pointer;
+      }
+
 }
-@import 'buttons';
-.wrapper-file-picker input[type=file] {
-    width: 225px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    
-   padding: 8px 20px;
-    cursor: pointer;
-  }

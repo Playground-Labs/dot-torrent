@@ -4,10 +4,11 @@
   "description": "A bit torrent client built using electron",
   "main": "main.js",
   "scripts": {
-    "start": "bundle exec jekyll build --source src --destination dist && electron .",
+    "start": "sass --style compressed src/stylesheets/sass/evaporate.scss:src/stylesheets/css/evaporate.min.css && bundle exec jekyll build --source src --destination dist && electron .",
     "lint": "standard --fix",
-    "build": "bundle exec jekyll build --source src --destination src/_site",
-    "serve": "bundle exec jekyll serve --source src --destination src/_site"
+    "build": "bundle exec jekyll build --source src --destination dist --watch",
+    "serve": "bundle exec jekyll serve --source src --destination src/_site",
+    "sass": "sass --watch --style compressed src/stylesheets/sass/evaporate.scss:src/stylesheets/css/evaporate.min.css"
   },
   "repository": "https://github.com/playground-labs/torrentspace",
   "keywords": [
