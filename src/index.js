@@ -1,14 +1,16 @@
 'use strict'
 const { ipcRenderer } = require('electron')
-
 const Tracker = require('./Tracker')
 const Download = require('./Download')
-
 let trackerListArray = []
 
-document.querySelector('form').addEventListener('submit', (event) => {
+document.getElementById('file-picker').onchange = (event) => {
+  event.srcElement.parentElement.dataset.text = [...event.target.files].map(({ name }) => (name))
+  event.srcElement.parentElement.className += ' wrapper-file-picker-change'
+}
+document.getElementById('button-download-torrent').addEventListener('click', (event) => {
   event.preventDefault()
-  const files = [...document.getElementById('filepicker').files]
+  const files = [...document.getElementById('file-picker').files]
   const filesformatted = files.map(({ name, path: pathName }) => ({
     name,
     pathName

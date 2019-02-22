@@ -1,6 +1,9 @@
-
-$label-color: #cacaca;
-$label-background: #505050;
+$file-picker-background: #f6f8f1;
+$file-picker-color: #202020;
+$default-download-label-background: #d0d0d0;
+$default-download-label-color: #acacac;
+$change-download-label-background: #202020;
+$change-download-label-color: #f6f8f1;
 
 .wrapper-file-picker {
     $file-picker-width: 400px;
@@ -14,17 +17,17 @@ $label-background: #505050;
     width: $file-picker-width + 2*$padding-left-right + 2*$border-thickness;
     height: $file-picker-height + 2*$padding-top-bottom + 2*$border-thickness;
     &::before {
-        content: 'Choose your file';
-        border: $border-thickness solid $label-color;
-        border-radius: 8px;
-        color: $label-color;
+        content: attr(data-text);
+        border: $border-thickness solid $file-picker-background;
+        border-radius: 8px 0 0 8px;
+        color: $file-picker-color;
         text-decoration: none;  
-        width: $file-picker-width;
+        width: $file-picker-width - 121px;
         height: $file-picker-height;
         line-height: $file-picker-height;
         font-size: 1em;
         padding: $padding-top-bottom $padding-left-right;
-        background: $label-background;
+        background: $file-picker-background;
         position: absolute;
         display: block;
         left: 0;
@@ -32,16 +35,45 @@ $label-background: #505050;
         cursor: pointer;
         text-align: center;
     }  
+    .button-download-torrent {
+        content: 'Download';
+        border: $border-thickness solid $default-download-label-background;
+        border-radius: 0 8px 8px 0;
+        color: $default-download-label-color;
+        text-decoration: none;  
+        width: $file-picker-width - 321px;
+        height: $file-picker-height;
+        line-height: $file-picker-height;
+        font-size: 1em;
+        padding: $padding-top-bottom $padding-left-right;
+        background: $default-download-label-background;
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 0;        
+        pointer-events: none;
+        text-align: center;
+    } 
     input {
-        width: $file-picker-width + 2*$border-thickness;;
-        height: $file-picker-height + 2*$border-thickness;;
+        //width: $file-picker-width + 2*$border-thickness;
+        width: $file-picker-width - 121px;
+        height: $file-picker-height + 2*$border-thickness;
         border-width: $border-thickness;      
         padding: $padding-top-bottom $padding-left-right;
         position: absolute;
         left: 0;
         top: 0;
-        opacity: 0;    
+        opacity: 0;
         cursor: pointer;
       }
 
+}
+.wrapper-file-picker-change {
+    .button-download-torrent {
+        background: $change-download-label-background;
+        border-color: $change-download-label-background;
+        color: $change-download-label-color; 
+        pointer-events: fill;      
+        cursor: pointer;
+    }
 }

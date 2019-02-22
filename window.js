@@ -9,6 +9,7 @@ class Window extends BrowserWindow {
   constructor ({ file, ...windowSettings }) {
     super({ ...defaultProps, ...windowSettings })
     this.webContents.toggleDevTools()
+    this.maximize()
     this.loadFile(file)
     this.once('ready-to-show', () => {
       this.show()

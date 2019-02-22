@@ -4,9 +4,13 @@
 
 layout: home
 ---
-<form>
-    <div class="wrapper-file-picker">
-    <input id="file-picker" class="file-picker" name="file-picker" type="file" data-text="select your file" multiple>
+<div id="app">
+{% include brand.html %}
+<form id="file-selector">
+    <div class="wrapper-file-picker" data-text="Select your file">
+    <input id="file-picker" class="file-picker" name="file-picker" type="file" value="" multiple>
+    <span id="button-download-torrent" class="button-download-torrent">Download</span>
     </div>
-    </form>
+</form>
 <pre id="tracker"></pre>
+</div>
