@@ -16,14 +16,14 @@ function main () {
     file: path.join('dist', 'index.html')
   })
 
-  ipcMain.on('files', async (event, filesArray) => {
+  ipcMain.on('files', (event, filesArray) => {
     try {
-      const torrentArray = await Promise.all(
-        filesArray.map(async ({
+      const torrentArray = Promise.all(
+        filesArray.map(({
           name,
           pathName
         }) => ({
-          ...await bencode.decode(fs.readFileSync(pathName))
+          ...bencode.decode(fs.readFileSync(pathName))
         }))
       )
       torrentArray.forEach((torrentFile) => {

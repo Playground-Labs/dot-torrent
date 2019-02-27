@@ -5,9 +5,12 @@ const defaultProps = {
   height: 800,
   show: false
 }
+const webPreferences = {
+  nodeIntegration: true
+}
 class Window extends BrowserWindow {
   constructor ({ file, ...windowSettings }) {
-    super({ ...defaultProps, ...windowSettings })
+    super({ ...defaultProps, ...webPreferences, ...windowSettings })
     this.webContents.toggleDevTools()
     this.maximize()
     this.loadFile(file)

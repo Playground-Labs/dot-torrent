@@ -40,10 +40,31 @@ ipcRenderer.on('BitTorrentFileContent', (event, torrentFile) => {
   let torrentTracker = new Tracker(
     torrentFile, trackerListArray
   )
-  torrentTracker.getPeers(peers => {
-    const downloadFromPeer = new Download()
-    peers.forEach(peer => {
-      downloadFromPeer.download(peer)
-    })
+  let uniquePeers = []
+  const downloadFromPeer = new Download()
+  let tp = null
+  torrentTracker.getPeers((peers, torrentParser) => {
+    if (tp === null) {
+      tp = torrentParser
+    }
+    uniquePeers = uniquePeers.concat(peers)
+    for (let i = 0; i < uniquePeers.length; i++) {
+      for (let j = i + 1; j < uniquePeers.length; j++) {
+        if (uniquePeers[i].ip === uniquePeers[j].ip) {
+          uniquePeers.splice(j, 1)
+          if (uniquePeers[i].connectOnce === undefined) {
+            uniquePeers[i].connectOnce = false
+          }
+        }
+      }
+    }
+    if (uniquePeers.length >= 1) {
+      uniquePeers.forEach((peer, index) => {
+        if (peer.connectOnce === false) {
+          downloadFromPeer.download(peer, tp)
+          uniquePeers[index].connectOnce = true
+        }
+      })
+    }
   })
 })

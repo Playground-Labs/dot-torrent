@@ -2,13 +2,15 @@
 const uniqueClientId = require('./uniqueClientId')
 class Message {
   buildHandShake (torrentParser) {
-    const bufferData = Buffer.alloc(8)
+    const bufferData = Buffer.alloc(68)
     bufferData.writeUInt8(19, 0)
     bufferData.write('BitTorrent protocol', 1)
     bufferData.writeUInt32BE(0, 20)
     bufferData.writeUInt32BE(0, 24)
-    this.torrentParser.torrentSize().copy(bufferData, 28)
-    bufferData.write(uniqueClientId.uniqueId())
+    torrentParser.infoHash().copy(bufferData, 28)
+    // bufferData.write(uniqueClientId.uniqueId().toString('utf-8'), 48)
+    uniqueClientId.uniqueId().copy(bufferData, 48)
+    console.log(bufferData)
     return bufferData
   }
   buildKeepAlive () {
