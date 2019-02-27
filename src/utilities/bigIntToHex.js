@@ -1,38 +1,43 @@
 'use strict'
-const BigInt16 = BigInt(16)
+
+const bigInt = (value) => {
+  // JS Standard shows this as an error since BigInt has a limited implementation
+  return BigInt(value)
+}
+const BigInt16 = bigInt(16)
 let hexDecimalMap = (hex) => {
   switch (hex) {
-    case BigInt(0):
+    case bigInt(0):
       return 0x00.toString(16)
-    case BigInt(1):
+    case bigInt(1):
       return 0x01.toString(16)
-    case BigInt(2):
+    case bigInt(2):
       return 0x02.toString(16)
-    case BigInt(3):
+    case bigInt(3):
       return 0x03.toString(16)
-    case BigInt(4):
+    case bigInt(4):
       return 0x04.toString(16)
-    case BigInt(5):
+    case bigInt(5):
       return 0x05.toString(16)
-    case BigInt(6):
+    case bigInt(6):
       return 0x06.toString(16)
-    case BigInt(7):
+    case bigInt(7):
       return 0x07.toString(16)
-    case BigInt(8):
+    case bigInt(8):
       return 0x08.toString(16)
-    case BigInt(9):
+    case bigInt(9):
       return 0x09.toString(16)
-    case BigInt(10):
+    case bigInt(10):
       return 0x0a.toString(16)
-    case BigInt(11):
+    case bigInt(11):
       return 0x0b.toString(16)
-    case BigInt(12):
+    case bigInt(12):
       return 0x0c.toString(16)
-    case BigInt(13):
+    case bigInt(13):
       return 0x0d.toString(16)
-    case BigInt(14):
+    case bigInt(14):
       return 0x0e.toString(16)
-    case BigInt(15):
+    case bigInt(15):
       return 0x0f.toString(16)
   }
 }
@@ -40,7 +45,7 @@ module.exports.BufferFormatted = (input, size) => {
   let allocBuffer = Buffer.allocUnsafe(size)
   let hexArray = []
   let hexBuffer = []
-  const value = BigInt(input)
+  const value = bigInt(input)
   let quotient = value / BigInt16
   let reminder = value % BigInt16
   hexArray.push(hexDecimalMap(reminder))

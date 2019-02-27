@@ -86,3 +86,7 @@ typings/
 !.vscode/launch.json
 !.vscode/extensions.json
 
+.bundle
+dist
+.sass-cache
+--watch

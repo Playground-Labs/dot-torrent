@@ -4,8 +4,11 @@
   "description": "A bit torrent client built using electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "lint": "standard --fix"
+    "start": "sass --style compressed src/stylesheets/sass/evaporate.scss:src/stylesheets/css/evaporate.min.css && bundle exec jekyll build --source src --destination dist && electron .",
+    "lint": "standard --fix",
+    "build": "sass --style compressed src/stylesheets/sass/evaporate.scss:src/stylesheets/css/evaporate.min.css && bundle exec jekyll build --source src --destination dist --watch",
+    "serve": "sass --style compressed src/stylesheets/sass/evaporate.scss:src/stylesheets/css/evaporate.min.css && bundle exec jekyll serve --source src --destination src/_site",
+    "sass": "sass --watch --style compressed src/stylesheets/sass/evaporate.scss:src/stylesheets/css/evaporate.min.css"
   },
   "repository": "https://github.com/playground-labs/torrentspace",
   "keywords": [
@@ -20,11 +23,13 @@
     "eslint": "^5.13.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
+    "mocha": "^6.0.2",
     "standard": "^12.0.1"
   },
   "dependencies": {
     "bencode": "^2.0.1",
     "electron": "^4.0.3",
-    "electron-store": "^2.0.0"
+    "electron-store": "^2.0.0",
+    "standard-markdown": "^5.0.1"
   }
 }

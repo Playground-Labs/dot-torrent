@@ -1,4 +1,4 @@
-# torrentSpace
+# .torrent
 
 A bit torrent client made with :yellow_heart: and [electron](https://electronjs.org).
 
