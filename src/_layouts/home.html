@@ -2,5 +2,19 @@
 name: home
 ---
 {% include header.html %}
+<div id="app">
+<div class="side-bar">
+{% include side-bar.html %}
+</div>
+<div class="main-content">
+<div class="file-selector">
+{% include file-selector.html %}
+</div>
+<div>
+#Rest of the content will come here
+</div>
+{% include pre-text.html %}
 {{ content }}
+</div>
+</div>
 {% include footer.html %}

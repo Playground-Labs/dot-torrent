@@ -1,0 +1,21 @@
+.side-bar {
+    background-color: #272727;
+        display: grid;
+        list-style-type: none;
+        grid-template-rows: 20% 80%;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+        @import 'elements/brand';
+        .nav-items {
+            display: grid;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            li {
+                text-transform: lowercase;
+                padding: 1.5em;
+                cursor: pointer;
+            }
+        }
+    }
