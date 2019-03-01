@@ -16,22 +16,19 @@ function main () {
     file: path.join('dist', 'index.html')
   })
 
-  ipcMain.on('files', (event, filesArray) => {
-    try {
-      const torrentArray = Promise.all(
-        filesArray.map(({
-          name,
-          pathName
-        }) => ({
-          ...bencode.decode(fs.readFileSync(pathName))
-        }))
-      )
-      torrentArray.forEach((torrentFile) => {
-        mainWindow.webContents.send('BitTorrentFileContent', torrentFile)
+  ipcMain.on('files', async (event, filesArray) => {
+    const filesPromise = filesArray.map(async ({
+      pathName
+    }) => ({
+      ...await bencode.decode(fs.readFileSync(pathName))
+    }))
+    Promise.all(filesPromise)
+      .then(torrentArray => {
+        torrentArray.forEach(torrentFile => mainWindow.webContents.send('BitTorrentFileContent', torrentFile))
       })
-    } catch (error) {
-      mainWindow.webContents.send('BitTorrentError', error)
-    }
+      .catch(error => {
+        mainWindow.webContents.send('BitTorrentError', error)
+      })
   })
 }
 app.on('ready', main)

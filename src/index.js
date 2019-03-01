@@ -8,11 +8,10 @@ document.getElementById('file-picker').onchange = (event) => {
   event.srcElement.parentElement.dataset.text = [...event.target.files].map(({ name }) => (name))
   event.srcElement.parentElement.className += ' wrapper-file-picker-change'
 }
-document.getElementById('button-download-torrent').addEventListener('click', (event) => {
+document.getElementById('button-download-torrent').addEventListener('click', async (event) => {
   event.preventDefault()
-  const files = [...document.getElementById('file-picker').files]
-  const filesformatted = files.map(({ name, path: pathName }) => ({
-    name,
+  const files = await [...document.getElementById('file-picker').files]
+  const filesformatted = files.map(({ path: pathName }) => ({
     pathName
   }))
   ipcRenderer.send('files', filesformatted)
