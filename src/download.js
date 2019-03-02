@@ -11,15 +11,19 @@ class Download {
     let savedBuf = Buffer.alloc(0)
     let handshake = true
     socket.on('data', recvBuf => {
-      console.log(`data received ${recvBuf}`)
+    //  console.log(`data received ${recvBuf}`)
       // msgLen calculates the length of a whole message
-      const msgLen = () => handshake ? savedBuf.readUInt8(0) + 49 : savedBuf.readInt32BE(0) + 4
+    //  const msgLen = () => handshake ? recvBuf.readUInt32(0)
       savedBuf = Buffer.concat([savedBuf, recvBuf])
+      console.log(`data received ${savedBuf.toString('hex')}`)
+      console.log(`length of the mesage is ${savedBuf.readUInt32BE(0)}`)
+
+      /*
       while (savedBuf.length >= 4 && savedBuf.length >= msgLen()) {
         callback(savedBuf.slice(0, msgLen()))
         savedBuf = savedBuf.slice(msgLen())
         handshake = false
-      }
+      }*/
     })
   }
   msgHandler (msg, socket) {
