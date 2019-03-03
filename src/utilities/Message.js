@@ -8,9 +8,7 @@ class Message {
     bufferData.writeUInt32BE(0, 20)
     bufferData.writeUInt32BE(0, 24)
     torrentParser.infoHash().copy(bufferData, 28)
-    // bufferData.write(uniqueClientId.uniqueId().toString('utf-8'), 48)
     uniqueClientId.uniqueId().copy(bufferData, 48)
-    console.log(bufferData)
     return bufferData
   }
   buildKeepAlive () {
@@ -87,6 +85,23 @@ class Message {
     bufferData.writeUInt8(9, 4)
     bufferData.writeUInt16BE(payload, 5)
     return bufferData
+  }
+  parseMessage (message) {
+    const id = message.length > 4 ? message.readUInt8(4) : null
+    let payload = message.length > 5 ? message.slice(5) : null
+    if (id === 6 || id === 7 || id === 8) {
+      const messageBody = payload.slice(8)
+      payload = {
+        index: payload.readUInt32BE(0),
+        begin: payload.readUInt32BE(4)
+      }
+      payload[id === '7' ? 'block': 'length'] = messageBody
+    }
+    return {
+      size: message.readUInt32BE(0),
+      id: id,
+      payload: payload
+    }
   }
 }
 module.exports = Message

@@ -22,25 +22,25 @@ class Tracker {
           const messageData = this.buildConnectionRequest(socket, trackerURL)
           this.udpSend(messageData, 0)
         } catch (error) {
-          console.log(error)
+          console.error(error)
         }
 
         socket.on('error', (err) => {
-          console.log(`server error:\n${err.stack}`)
+          console.error(`server error:\n${err.stack}`)
           socket.close()
         })
+        /*
         socket.on('listening', () => {
           const address = socket.address()
-          console.log(`server listening ${address.address}:${address.port}`)
         })
+        */
         socket.on('message', response => {
-          console.log(this.responseType(response))
           switch (this.responseType(response)) {
             case 'connect':
               this.parseConnectionResponse(response)
                 .then(ConnectionResponseData => this.buildAnnounceRequest(this.torrentFile, ConnectionResponseData.connectionId, socket, trackerURL))
                 .then(messageData => this.udpSend(messageData, 0))
-                .catch(error => console.log(error))
+                .catch(error => console.error(error))
               break
             case 'announce':
               this.parseAnnounceResponse(response)
