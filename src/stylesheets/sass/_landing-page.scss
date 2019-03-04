@@ -1,9 +1,7 @@
-@import 'elements/brand.scss';
 #app {
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        @import 'sidebar';
+        display: grid;
+        grid-template-columns: 15% 85%;
+        height: 100vh;
+        @import 'main-content';
 }
-@import 'elements/filepicker';

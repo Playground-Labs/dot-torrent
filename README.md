@@ -10,4 +10,4 @@ under :construction:
 
 ## License
 
-[CC0 1.0 Universal](LICENSE.md)
+[MIT License](LICENSE)

@@ -1,9 +1,12 @@
 'use strict'
 const { BrowserWindow } = require('electron')
+const path = require('path')
+
 const defaultProps = {
   width: 800,
   height: 800,
-  show: false
+  show: false,
+  icon: path.join(__dirname, 'icon.png')
 }
 const webPreferences = {
   nodeIntegration: true
