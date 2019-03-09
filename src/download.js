@@ -7,6 +7,7 @@ const connectionRefusedPeers = []
 const addressNotAvailedPeers = []
 const connectionTimedOutPeers = []
 const connectionResetPeers = []
+const requestedPiece = []
 class Download {
   constructor () {
     this.message = new Message()
@@ -15,7 +16,13 @@ class Download {
 
   unchokeHandler () { return 0 }
 
-  haveHandler (payload) { return 0 }
+  haveHandler (payload, socket, requestedPiece) {
+    const pieceIndex = payload.readUInt32BE(0)
+    if (!requestedPiece[pieceIndex]) {
+      socket.write(Message.buildRequest())
+    }
+    requestedPiece[pieceIndex] = true
+  }
 
   bitfieldHandler (payload) { return 0 }
 
@@ -34,7 +41,7 @@ class Download {
       }
     })
   }
-  messageHandler (msg, socket) {
+  messageHandler (msg, socket, requestedPiece) {
     if (this.isHandshake(msg)) {
       socket.write(this.message.buildInterested())
     } else {
@@ -47,7 +54,7 @@ class Download {
           this.unchokeHandler()
           break
         case 4:
-          this.haveHandler(parsedMessage.payload)
+          this.haveHandler(parsedMessage.payload, socket, requestedPiece)
           break
         case 5:
           this.bitfieldHandler(parsedMessage.payload)
@@ -61,11 +68,11 @@ class Download {
   isHandshake (msg) {
     return msg.length === msg.readUInt8(0) + 49 && msg.toString('utf8', 1, 20) === 'BitTorrent protocol'
   }
-  download (peer, torrentParser) {
+  download (peer, torrentParser, requestedPiece) {
     const socket = new net.Socket()
     socket.connect(peer.port, peer.ip, () => {
     })
-    this.onWholeMsg(socket, msg => this.messageHandler(msg, socket))
+    this.onWholeMsg(socket, msg => this.messageHandler(msg, socket, requestedPiece))
     socket.on('error', error => {
       switch (error.code) {
         case 'ECONNREFUSED':
