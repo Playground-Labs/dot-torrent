@@ -1,7 +1,7 @@
 'use strict'
 const { ipcRenderer } = require('electron')
-const Tracker = require('./Tracker')
-const Download = require('./Download')
+const Tracker = require('../components/Tracker')
+const Download = require('../components/download')
 let trackerListArray = []
 
 document.getElementById('file-picker').onchange = (event) => {
