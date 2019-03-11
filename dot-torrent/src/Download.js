@@ -1,8 +1,6 @@
 'use strict'
-
-const net = require('net')
 import Message from './utilities/Message'
-
+const net = require('net')
 const connectionRefusedPeers = []
 const addressNotAvailedPeers = []
 const connectionTimedOutPeers = []

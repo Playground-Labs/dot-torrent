@@ -1,7 +1,6 @@
-'use strict'
 const crypto = require('crypto')
 let uniqueID = null
-module.exports.uniqueId = () => {
+const uniqueId = () => {
   if (!uniqueID) {
     uniqueID = crypto.randomBytes(20)
     Buffer.from('-NS1000-').copy(uniqueID, 0)
@@ -10,3 +9,4 @@ module.exports.uniqueId = () => {
     return uniqueID
   }
 }
+export default uniqueId

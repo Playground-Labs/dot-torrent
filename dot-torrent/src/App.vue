@@ -4,9 +4,10 @@
   </div>
 </template>
 <script>
+import Tracker from './Tracker'
+import Download from './Download'
 const { ipcRenderer } = require('electron')
-const Tracker = require('./Tracker')
-const Download = require('./Download')
+
 let trackerListArray = []
 
 ipcRenderer.on('BitTorrentFileContent', (event, torrentFile) => {

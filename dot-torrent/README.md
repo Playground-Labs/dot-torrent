@@ -1,29 +1,14 @@
-# dot-torrent
+# .t 
+#### dotTorrent
 
-## Project setup
-```
-yarn install
-```
+A bit torrent client made with :yellow_heart: and [electron](https://electronjs.org).
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+under :construction:
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+## JavaScript Style
 
-### Run your tests
-```
-yarn run test
-```
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-### Lints and fixes files
-```
-yarn run lint
-```
+## License
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[MIT License](LICENSE)

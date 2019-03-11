@@ -1,7 +1,6 @@
-'use strict'
+import bigIntToHex from './utilities/bigIntToHex'
 const bencode = require('bencode')
 const crypto = require('crypto')
-import bigIntToHex from './utilities/bigIntToHex'
 class TorrentParser {
   constructor (torrentFile) {
     this.torrentFile = torrentFile

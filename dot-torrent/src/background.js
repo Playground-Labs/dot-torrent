@@ -1,5 +1,4 @@
 'use strict'
-
 import { app, ipcMain, protocol, BrowserWindow } from 'electron'
 import {
   createProtocol,

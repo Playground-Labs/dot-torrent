@@ -1,4 +1,3 @@
-'use strict'
 import uniqueClientId from './uniqueClientId'
 class Message {
   buildHandShake (torrentParser) {

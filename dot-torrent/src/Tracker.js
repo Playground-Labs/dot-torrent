@@ -1,12 +1,13 @@
 'use strict'
+import TorrentParser from './TorrentParser'
+import uniqueClientId from './utilities/uniqueClientId'
+import slices from './utilities/slices'
+
 const dgram = require('dgram')
 const url = require('url')
 const crypto = require('crypto')
-import TorrentParser from './TorrentParser'
-const uniqueClientId = require('./utilities/uniqueClientId')
-const slices = require('./utilities/slices')
 
-class Tracker {
+export default class Tracker {
   constructor (torrentFile, trackerURLs) {
     this.torrentFile = torrentFile
     this.trackerURLs = trackerURLs
@@ -121,4 +122,3 @@ class Tracker {
     }
   }
 }
-export default Tracker

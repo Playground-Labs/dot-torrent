@@ -1,9 +1,6 @@
-'use strict'
-
 const bigInt = (value) => {
   // JS Standard shows this as an error since BigInt has a limited implementation
   return BigInt(value)
-  
 }
 const BigInt16 = bigInt(16)
 let hexDecimalMap = (hex) => {
