@@ -1,7 +1,0 @@
-#app {
-        @import 'sidebar';
-        display: grid;
-        grid-template-columns: 15% 85%;
-        height: 100vh;
-        @import 'main-content';
-}

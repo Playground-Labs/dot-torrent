@@ -1,5 +1,3 @@
-'use strict'
-
 const bigInt = (value) => {
   // JS Standard shows this as an error since BigInt has a limited implementation
   return BigInt(value)
@@ -41,7 +39,7 @@ let hexDecimalMap = (hex) => {
       return 0x0f.toString(16)
   }
 }
-module.exports.BufferFormatted = (input, size) => {
+const BufferFormatted = (input, size) => {
   let allocBuffer = Buffer.allocUnsafe(size)
   let hexArray = []
   let hexBuffer = []
@@ -64,3 +62,4 @@ module.exports.BufferFormatted = (input, size) => {
   Buffer.from(hexBuffer).copy(allocBuffer, allocBuffer.byteLength - hexBuffer.length)
   return allocBuffer
 }
+export default BufferFormatted
