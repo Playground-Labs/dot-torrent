@@ -1,9 +1,8 @@
-# .t 
-#### dotTorrent
+# dotTorrent
 
-A bit torrent client made with :yellow_heart: and [electron](https://electronjs.org).
+A bit torrent client built with [vueJS](https://vuejs.org/) and [electron](https://electronjs.org)
 
-under :construction:
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/uses-js.svg)](https://forthebadge.com)
 
 ## JavaScript Style
 
