@@ -1,63 +1,24 @@
-// Modules to control application life and create native browser window
-/*'use strict'
-const path = require('path')
-const fs = require('fs')
-const bencode = require('bencode')
-
-const {
-  app,
-  ipcMain
-} = require('electron')
-
-const Window = require('./Window')
-
-function main () {
-  let mainWindow = new Window({
-    file: path.join('dist', 'index.html')
-  })
-
-  ipcMain.on('files', async (event, filesArray) => {
-    const filesPromise = filesArray.map(async ({
-      pathName
-    }) => ({
-      ...await bencode.decode(fs.readFileSync(pathName))
-    }))
-    Promise.all(filesPromise)
-      .then(torrentArray => {
-        torrentArray.forEach(torrentFile => mainWindow.webContents.send('BitTorrentFileContent', torrentFile))
-      })
-      .catch(error => {
-        mainWindow.webContents.send('BitTorrentError', error)
-      })
-  })
-}
-app.on('ready', main)
-app.on('windows-all-closed', () => {
-  app.quit()
-})
-*/
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, ipcMain, protocol, BrowserWindow } from 'electron'
 import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
+
+const fs = require('fs')
+const bencode = require('bencode')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
-let mainWindow
+
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
   // Create the browser window.
- mainWindow = new Window({
-    file: path.join('dist', 'index.html')
-  })
   win = new BrowserWindow({ width: 800, height: 600 })
-
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -67,7 +28,20 @@ function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
-
+  ipcMain.on('files', async (event, filesArray) => {
+    const filesPromise = filesArray.map(async ({
+      pathName
+    }) => ({
+      ...await bencode.decode(fs.readFileSync(pathName))
+    }))
+    Promise.all(filesPromise)
+      .then(torrentArray => {
+        torrentArray.forEach(torrentFile => win.webContents.send('BitTorrentFileContent', torrentFile))
+      })
+      .catch(error => {
+        win.webContents.send('BitTorrentError', error)
+      })
+  })
   win.on('closed', () => {
     win = null
   })

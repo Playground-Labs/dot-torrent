@@ -1,5 +1,5 @@
 'use strict'
-const uniqueClientId = require('./uniqueClientId')
+import uniqueClientId from './uniqueClientId'
 class Message {
   buildHandShake (torrentParser) {
     const bufferData = Buffer.alloc(68)
@@ -95,7 +95,7 @@ class Message {
         index: payload.readUInt32BE(0),
         begin: payload.readUInt32BE(4)
       }
-      payload[id === '7' ? 'block': 'length'] = messageBody
+      payload[id === '7' ? 'block' : 'length'] = messageBody
     }
     return {
       size: message.readUInt32BE(0),
@@ -104,4 +104,4 @@ class Message {
     }
   }
 }
-module.exports = Message
+export default Message

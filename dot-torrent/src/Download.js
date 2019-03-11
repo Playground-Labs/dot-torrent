@@ -1,7 +1,7 @@
 'use strict'
 
 const net = require('net')
-const Message = require('./utilities/Message')
+import Message from './utilities/Message'
 
 const connectionRefusedPeers = []
 const addressNotAvailedPeers = []
@@ -98,4 +98,4 @@ class Download {
     })
   }
 }
-module.exports = Download
+export default Download

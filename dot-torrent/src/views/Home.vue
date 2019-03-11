@@ -1,16 +1,13 @@
 <template>
-  <div class="home">
-  </div>
+<landing-page></landing-page>
 </template>
-
 <script>
 // @ is an alias to /src
-import landing from '@/components/Landing.vue'
-
+import LandingPage from '@/components/LandingPage.vue'
 export default {
-  name: 'home',
+  name: 'dot-torrent',
   components: {
-    landing
+    LandingPage
   }
 }
 </script>

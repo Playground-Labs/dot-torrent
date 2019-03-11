@@ -2,8 +2,7 @@
 const dgram = require('dgram')
 const url = require('url')
 const crypto = require('crypto')
-
-const TorrentParser = require('./TorrentParser')
+import TorrentParser from './TorrentParser'
 const uniqueClientId = require('./utilities/uniqueClientId')
 const slices = require('./utilities/slices')
 
@@ -122,4 +121,4 @@ class Tracker {
     }
   }
 }
-module.exports = Tracker
+export default Tracker
